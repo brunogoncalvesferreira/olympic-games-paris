@@ -1,6 +1,11 @@
-import { useEffect, useState } from "react";
-import { CountriesProps, LinksProps } from "../types/interface";
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { useEffect, useState } from "react"
+import { CountriesProps, LinksProps } from "../types/interface"
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react"
 
 export function Home() {
   const [countries, setContries] = useState<CountriesProps[]>([])
@@ -9,32 +14,33 @@ export function Home() {
   const [links, setLinks] = useState({} as LinksProps)
 
   async function fetchData(page: number) {
-    const response = await fetch(`https://apis.codante.io/olympic-games/countries?page=${page}`)
+    const response = await fetch(
+      `https://apis.codante.io/olympic-games/countries?page=${page}`
+    )
     const ordens = await response.json()
     setContries(ordens.data)
     setLinks(ordens.links)
     setTotal(ordens.meta.last_page)
   }
 
-
   function handleNextPage() {
-    if(links.next) {
+    if (links.next) {
       setCurrentPage(currentPage + 1)
     }
   }
 
   function handlePrevPage() {
-    if(links.prev) {
+    if (links.prev) {
       setCurrentPage(currentPage - 1)
     }
   }
 
   function goToFirstPage() {
-    setCurrentPage(1);
+    setCurrentPage(1)
   }
 
   function goToLastPage() {
-    setCurrentPage(total);
+    setCurrentPage(total)
   }
 
   useEffect(() => {
@@ -50,8 +56,8 @@ export function Home() {
         <p>Confira o quadro de medalhas abaixo</p>
       </div>
 
-      <div className="border border-gray-200 rounded">
-        <table className="w-full">
+      <div className="border border-gray-200 rounded overscroll-auto overflow-x-auto">
+        <table className="w-full ">
           <thead>
             <tr className="text-left border-b border-gray-200">
               <th className="p-4">Posição</th>
@@ -64,8 +70,11 @@ export function Home() {
           </thead>
 
           <tbody>
-            {countries.map(countries => (
-              <tr key={countries.id} className="text-left border-b border-gray-200">
+            {countries.map((countries) => (
+              <tr
+                key={countries.id}
+                className="text-left border-b border-gray-200"
+              >
                 <td className="p-4">{countries.rank}</td>
                 <td className="p-4 flex items-center gap-2">
                   <img
@@ -79,14 +88,16 @@ export function Home() {
                 <td className="p-4">{countries.silver_medals}</td>
                 <td className="p-4">{countries.bronze_medals}</td>
                 <td className="p-4">{countries.total_medals}</td>
-            </tr>
+              </tr>
             ))}
           </tbody>
         </table>
       </div>
 
       <div className="flex items-center gap-2 mt-4">
-        <span>Página {currentPage} de {total}</span>
+        <span>
+          Página {currentPage} de {total}
+        </span>
         <button
           disabled={currentPage === 1}
           onClick={goToFirstPage}
@@ -117,5 +128,5 @@ export function Home() {
         </button>
       </div>
     </div>
-  );
+  )
 }
